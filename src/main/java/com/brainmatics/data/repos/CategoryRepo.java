@@ -2,8 +2,8 @@ package com.brainmatics.data.repos;
 
 import com.brainmatics.data.entity.Category;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CategoryRepo extends CrudRepository<Category, Long> {
+public interface CategoryRepo extends PagingAndSortingRepository<Category, Long> {
     
 }
