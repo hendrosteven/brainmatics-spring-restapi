@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "tbl_users")
-public class User implements UserDetails {
+public class UserApp implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(length = 255, nullable = false)
     private String password;
 
-    @Column(length = 5, nullable = false)
+    @Column(length = 200, nullable = false)
     private String fullName;
 
     public Long getId() {

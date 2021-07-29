@@ -2,10 +2,10 @@ package com.brainmatics.controllers;
 
 import javax.validation.Valid;
 
-import com.brainmatics.data.entity.User;
-import com.brainmatics.data.repos.UserRepo;
+import com.brainmatics.data.entity.UserApp;
 import com.brainmatics.dto.ResponseData;
 import com.brainmatics.dto.UserData;
+import com.brainmatics.services.UserService;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     
     @Autowired
-    private UserRepo repo;
+    private UserService userService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -34,7 +34,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody UserData userData, Errors errors){
-        ResponseData<User> response = new ResponseData<>();
+        ResponseData<UserApp> response = new ResponseData<>();
         if (errors.hasErrors()) {
             for (ObjectError error : errors.getAllErrors()) {
                 response.getMessages().add(error.getDefaultMessage());
@@ -42,10 +42,12 @@ public class UserController {
             response.setStatus(false);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        User user = modelMapper.map(userData, User.class);
+        UserApp user = modelMapper.map(userData, UserApp.class);
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-        response.setPlayload(repo.save(user));
+        response.setPlayload(userService.createOne(user));
         response.setStatus(true);
         return ResponseEntity.ok(response);
     }
+
+    
 }

@@ -2,6 +2,7 @@ package com.brainmatics.services;
 
 import javax.transaction.Transactional;
 
+import com.brainmatics.data.entity.UserApp;
 import com.brainmatics.data.repos.UserRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ public class UserService implements UserDetailsService {
             .orElseThrow(() -> new UsernameNotFoundException(
                 String.format("User with email '%s' not found",email)
             ));
+    }
+
+    public UserApp createOne(UserApp user){
+        return repo.save(user);
     }
     
 }
