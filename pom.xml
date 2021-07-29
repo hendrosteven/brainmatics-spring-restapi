@@ -51,6 +51,12 @@
 			<version>2.4.2</version>
 		</dependency>
 
+		<!-- 
+			Swagger UI
+			http://localhost:8080/swagger-ui.html
+			OpenAPI document
+			http://localhost:8080/v3/api-docs/
+		-->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
