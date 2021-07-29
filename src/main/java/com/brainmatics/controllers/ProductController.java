@@ -5,11 +5,11 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.brainmatics.data.entity.Product;
-import com.brainmatics.data.repos.CategoryRepo;
 import com.brainmatics.data.repos.ProductRepo;
 import com.brainmatics.dto.ProductData;
 import com.brainmatics.dto.ResponseData;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +34,7 @@ public class ProductController {
     private ProductRepo repo;
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private ModelMapper modelMapper;
 
     @GetMapping("/{page}/{size}")
     public ResponseEntity<?> findAll(@PathVariable("page") int page, @PathVariable("size") int size) {
@@ -63,13 +63,8 @@ public class ProductController {
             response.setStatus(false);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        Product product = new Product();
-        product.setCode(productData.getCode());
-        product.setName(productData.getName());
-        product.setPrice(productData.getPrice());
-        product.setDescription(productData.getDescription());
-        product.setCategory(categoryRepo.findById(productData.getCategoryId()).get());
-
+        Product product = modelMapper.map(productData, Product.class);
+       
         response.setPlayload(repo.save(product));
         response.setStatus(true);
         return ResponseEntity.ok(response);
@@ -94,12 +89,9 @@ public class ProductController {
     public ResponseEntity<?> updateOne(@PathVariable("id") Long id, @RequestBody ProductData productData) {
         ResponseData<Product> response = new ResponseData<>();
         try {
-            Product product = repo.findById(id).get();
-            product.setCode(productData.getCode());
-            product.setName(productData.getName());
-            product.setPrice(productData.getPrice());
-            product.setDescription(productData.getDescription());
-            product.setCategory(categoryRepo.findById(productData.getCategoryId()).get());
+            Product product = modelMapper.map(productData,Product.class);
+            product.setId(id);
+            
             response.setPlayload(repo.save(product));
             response.setStatus(true);
             return ResponseEntity.ok(response);

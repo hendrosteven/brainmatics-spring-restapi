@@ -4,6 +4,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.brainmatics.data.entity.Category;
+
 public class ProductData {
 
     @NotEmpty(message = "Code is required")
@@ -18,7 +20,7 @@ public class ProductData {
 
     private String description;
     
-    private Long categoryId;
+    private Category category;
 
     public String getCode() {
         return code;
@@ -52,12 +54,12 @@ public class ProductData {
         this.description = description;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     
